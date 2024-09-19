@@ -1,0 +1,477 @@
+---
+include:
+  - docassemble.AssemblyLine:assembly_line.yml
+---
+metadata:
+  title: >-
+    Petition to seal eviction record
+  short title: >-
+    Petition to seal eviction
+  description: |-
+    This interview helps someone in Massachusetts petition to seal eviction record.
+  can_I_use_this_form: |
+    If you are a _____________, you can use this interview to ____________.
+  before_you_start: |
+    This interview will help you petition to seal eviction record.
+    
+    Before you get started, please gather:
+    
+    1. Your Case Number
+    1. 
+    1. 
+    
+    When you are finished, you will need to:
+    
+    1. 
+    1.
+  maturity: production
+  estimated_completion_minutes: 10
+  estimated_completion_delta: 5
+  LIST_topics: 
+    - "HO-00-00-00-00"
+  tags:
+    - "HO-00-00-00-00"
+  authors:
+    - Taline Torossian
+  original_form: []
+  original_form_published_on: ""
+  allowed_courts: 
+    - "Boston Municipal Court"
+    - "District Court"
+    - "Housing Court"
+    - "Superior Court"
+  typical_role: "defendant"
+  al_weaver_version: "1.11.0"
+  generated_on: "2024-09-17"
+  languages:
+    - en
+  jurisdiction: NAM-US-US+MA
+  review_date: 2024-09-17
+  form_titles:
+    - Petition to seal eviction record
+  form_numbers: []
+  update_notes: |
+---
+code: |
+  # This controls the default country and list of states in address field questions
+  AL_DEFAULT_COUNTRY = "US"
+---
+code: |
+  # This controls the default state in address field questions
+  AL_DEFAULT_STATE = "MA"
+---
+code: |
+  github_repo_name =  'docassemble-PetitionToSealEvictionRecord'
+---
+code: |
+  interview_short_title = "Petition to seal eviction record"
+---
+code: |
+  al_form_type = "existing_case" 
+---
+objects:
+  - users: ALPeopleList.using(ask_number=True,target_number=1)
+---
+sections:
+  - review_petition_to_seal_eviction_record: Review your answers
+---
+#################### Interview order #####################
+comment: |
+  Controls order and branching logic for questions specific to this form
+id: interview_order_petition_to_seal_eviction_record
+code: |
+  # Set the allowed courts for this interview
+  allowed_courts = ['Boston Municipal Court', 'District Court', 'Housing Court', 'Superior Court']
+  nav.set_section("review_petition_to_seal_eviction_record")
+  user_role = "defendant"
+  user_ask_role = "defendant"
+  users.gather()
+  set_parts(subtitle=str(users))
+  original_eviction_outcome_favor
+  non_payment_cured
+  set_progress(20)
+  users.address.address
+  plaintiff_assent
+  notice_by_delivery
+  set_progress(40)
+  signature_date
+  docket_number
+  trial_court.division
+  set_progress(60)
+  trial_court.department
+  interview_order_petition_to_seal_eviction_record = True
+---
+###################### Main order ######################
+comment: |
+  This block includes the logic for standalone interviews.
+  Delete mandatory: True to include in another interview
+mandatory: True
+code: |
+  al_intro_screen
+  petition_to_seal_eviction_record_intro
+  interview_order_petition_to_seal_eviction_record
+  signature_date
+  # Store anonymous data for analytics / statistics
+  store_variables_snapshot(
+      persistent=True,
+      data={
+          "zip": showifdef("users[0].address.zip"),
+          "reached_interview_end": True,
+      },
+  )
+  petition_to_seal_eviction_record_download
+---
+id: Petition_to_seal_eviction_record
+continue button field: petition_to_seal_eviction_record_intro
+question: |
+  Petition to seal eviction record
+subquestion: |
+  This interview will help you petition to seal eviction record.
+  
+  Before you get started, please gather:
+  
+  1. 
+  1. 
+  1. 
+  
+  When you are finished, you will need to:
+  
+  1. 
+  1.
+
+  If you are a _____________, you can use this interview to ____________.
+
+  Most people take about 10 minutes to complete this interview.
+---
+id: Section 1
+question: |
+  Section 1
+subquestion: |
+  The outcome of the eviction action was one of the following:
+fields:
+  - "Original eviction outcome favor": original_eviction_outcome_favor
+    datatype: yesnoradio
+  - "Original eviction outcome dismissed": original_eviction_outcome_dismissed
+    datatype: yesnoradio
+---
+id: Section 2 skip if you made a selection in Section 1
+question: |
+  Section 2 (skip if you made a selection in Section 1)
+subquestion: |
+  The reason for the eviction action was one of the following:
+fields:
+  - "Non payment cured": non_payment_cured
+    datatype: yesnoradio
+  - "Fault eviction appeal expired": fault_eviction_appeal_expired
+    datatype: yesnoradio
+  - "Non payment cured notice filed": non_payment_cured_notice_filed
+    datatype: yesnoradio
+  - "Eviction judgment entered landlord seven years": eviction_judgment_entered_landlord_seven_years
+    datatype: yesnoradio
+  - "Eviction judgment entered landlord no criminal conviction": eviction_judgment_entered_landlord_no_criminal_conviction
+    datatype: yesnoradio
+  - "Non payment hardship": non_payment_hardship
+    datatype: yesnoradio
+  - "Non payment hardship appeal expired": non_payment_hardship_appeal_expired
+    datatype: yesnoradio
+  - "Fault eviction no prior action": fault_eviction_no_prior_action
+    datatype: yesnoradio
+  - "No fault eviction": no_fault_eviction
+    datatype: yesnoradio
+  - "Eviction judgment entered tenant": eviction_judgment_entered_tenant
+    datatype: yesnoradio
+  - "Fault eviction": fault_eviction
+    datatype: yesnoradio
+  - "Notice mail": notice_mail
+    datatype: yesnoradio
+  - "Eviction judgment entered landlord no prior action": eviction_judgment_entered_landlord_no_prior_action
+    datatype: yesnoradio
+  - "Non payment cured judgment satisfied": non_payment_cured_judgment_satisfied
+    datatype: yesnoradio
+  - "Custom": custom
+  - "Non payment hardship no prior action": non_payment_hardship_no_prior_action
+    datatype: yesnoradio
+  - "Eviction judgment entered landlord": eviction_judgment_entered_landlord
+    datatype: yesnoradio
+  - "Notice delivery": notice_delivery
+    datatype: yesnoradio
+  - "Date of Notice": notice_date
+    datatype: date
+---
+id: Section Three
+question: |
+  Section Three
+subquestion: |
+  The eviction started in District/Municipal /Superior Court and was transferred to Housing Court. The decision on this petition will apply to all eviction records in the initial court upon its receipt of the decision.
+fields:
+  - "Users.address.address": users.address.address
+  - "Eviction transferred": eviction_transferred
+    datatype: yesnoradio
+---
+id: Plaintiff Assent
+question: |
+  Plaintiff Assent
+subquestion: |
+  The Plaintiff(s) in this action assents to this petition.
+fields:
+  - "Plaintiff assent": plaintiff_assent
+    datatype: yesnoradio
+---
+id: Screen five
+question: |
+  Screen five
+fields:
+  - "Notice by delivery": notice_by_delivery
+    datatype: yesnoradio
+  - "Notice": notice
+    datatype: yesnoradio
+  - "Date of notice": date_of_notice
+    datatype: date
+  - "Notice by mail": notice_by_mail
+    datatype: yesnoradio
+  - "Original eviction outcome": original_eviction_outcome
+    datatype: yesnoradio
+---
+id: preview petition_to_seal_eviction_record
+question: |
+  Preview your form before you sign it
+subquestion: |
+  Here is a preview of the form you will sign on the next page.   
+  
+  ${ al_court_bundle.as_pdf(key='preview') }
+
+  Click the image to open it in a new tab. Click the "Edit answers" button
+  to edit your answers.
+
+  ${ action_button_html(url_action('review_petition_to_seal_eviction_record'), label='Edit answers', color='info') }
+  
+  Remember to come back to this window to continue and sign your form.
+continue button field: petition_to_seal_eviction_record_preview_question    
+---
+code: |
+  signature_fields = ['users[0].signature']
+---
+code: |
+  # This is a placeholder for the addresses that will be searched
+  # for matching address to court. Edit if court venue is based on 
+  # a different address than the user's
+  [user.address.address for user in users.complete_elements()]
+  addresses_to_search = [user.address for user in users.complete_elements()]
+---
+id: petition to seal eviction record review screen
+event: review_petition_to_seal_eviction_record
+question: |
+  Review your answers
+review:
+  - Edit: non_payment_cured
+    button: |
+      **Non payment cured**:
+      ${ non_payment_cured }
+  - Edit: signature_date
+    button: |
+      **Date of Signature**:
+      ${ signature_date }
+  - Edit: fault_eviction_appeal_expired
+    button: |
+      **Fault eviction appeal expired**:
+      ${ fault_eviction_appeal_expired }
+  - Edit: non_payment_cured_notice_filed
+    button: |
+      **Non payment cured notice filed**:
+      ${ non_payment_cured_notice_filed }
+  - Edit: eviction_judgment_entered_landlord_seven_years
+    button: |
+      **Eviction judgment entered landlord seven years**:
+      ${ eviction_judgment_entered_landlord_seven_years }
+  - Edit: plaintiff_assent
+    button: |
+      **Plaintiff assent**:
+      ${ plaintiff_assent }
+  - Edit: eviction_judgment_entered_landlord_no_criminal_conviction
+    button: |
+      **Eviction judgment entered landlord no criminal conviction**:
+      ${ eviction_judgment_entered_landlord_no_criminal_conviction }
+  - Edit: non_payment_hardship
+    button: |
+      **Non payment hardship**:
+      ${ non_payment_hardship }
+  - Edit: users.revisit
+    button: |
+      **Users**
+
+      % for item in users:
+        * ${ item }
+      % endfor
+  - Edit: notice_by_delivery
+    button: |
+      **Notice by delivery**:
+      ${ notice_by_delivery }
+  - Edit: non_payment_hardship_appeal_expired
+    button: |
+      **Non payment hardship appeal expired**:
+      ${ non_payment_hardship_appeal_expired }
+  - Edit: fault_eviction_no_prior_action
+    button: |
+      **Fault eviction no prior action**:
+      ${ fault_eviction_no_prior_action }
+  - Edit: notice
+    button: |
+      **Notice**:
+      ${ notice }
+  - Edit: no_fault_eviction
+    button: |
+      **No fault eviction**:
+      ${ no_fault_eviction }
+  - Edit: eviction_judgment_entered_tenant
+    button: |
+      **Eviction judgment entered tenant**:
+      ${ eviction_judgment_entered_tenant }
+  - Edit: docket_number
+    button: |
+      **Docket number**:
+      ${ docket_number }
+  - Edit: fault_eviction
+    button: |
+      **Fault eviction**:
+      ${ fault_eviction }
+  - Edit: notice_mail
+    button: |
+      **Notice mail**:
+      ${ notice_mail }
+  - Edit: eviction_judgment_entered_landlord_no_prior_action
+    button: |
+      **Eviction judgment entered landlord no prior action**:
+      ${ eviction_judgment_entered_landlord_no_prior_action }
+  - Edit: original_eviction_outcome_favor
+    button: |
+      **Original eviction outcome favor**:
+      ${ original_eviction_outcome_favor }
+  - Edit: date_of_notice
+    button: |
+      **Date of notice**:
+      ${ date_of_notice }
+  - Edit: non_payment_cured_judgment_satisfied
+    button: |
+      **Non payment cured judgment satisfied**:
+      ${ non_payment_cured_judgment_satisfied }
+  - Edit: custom
+    button: |
+      **Custom**:
+      ${ custom }
+  - Edit: original_eviction_outcome_dismissed
+    button: |
+      **Original eviction outcome dismissed**:
+      ${ original_eviction_outcome_dismissed }
+  - Edit: non_payment_hardship_no_prior_action
+    button: |
+      **Non payment hardship no prior action**:
+      ${ non_payment_hardship_no_prior_action }
+  - Edit: eviction_transferred
+    button: |
+      **Eviction transferred**:
+      ${ eviction_transferred }
+  - Edit: notice_by_mail
+    button: |
+      **Notice by mail**:
+      ${ notice_by_mail }
+  - Edit: original_eviction_outcome
+    button: |
+      **Original eviction outcome**:
+      ${ original_eviction_outcome }
+  - Edit: eviction_judgment_entered_landlord
+    button: |
+      **Eviction judgment entered landlord**:
+      ${ eviction_judgment_entered_landlord }
+  - Edit: trial_court
+    button: |
+      **Trial court**
+  
+      % if defined("trial_court.division"):
+      * division: ${ trial_court.division }
+      % endif
+      % if defined("trial_court.department"):
+      * department: ${ trial_court.department }
+      % endif
+  - Edit: notice_delivery
+    button: |
+      **Notice delivery**:
+      ${ notice_delivery }
+  - Edit: notice_date
+    button: |
+      **Date of Notice**:
+      ${ notice_date }
+---
+continue button field: users.revisit
+question: |
+  Edit users
+subquestion: |
+  ${ users.table }
+
+  ${ users.add_action() }
+---
+table: users.table
+rows: users
+columns:
+  - Name: |
+      row_item.name.full() if defined("row_item.name.first") else ""
+  - Signature: |
+      row_item.signature if defined("row_item.signature") else ""
+  - Address: |
+      row_item.address.block() if defined("row_item.address.address") else ""
+edit:
+  - name.first
+  - signature
+  - address.address
+confirm: True
+
+---
+id: download petition_to_seal_eviction_record
+event: petition_to_seal_eviction_record_download
+question: |
+  All done
+subquestion: |
+  Thank you ${users}. Your form is ready to download and deliver.
+  
+  View, download and send your form below. Click the "Edit answers" button to fix any mistakes.
+
+  ${ action_button_html(url_action('review_petition_to_seal_eviction_record'), label='Edit answers', color='info') }
+  
+  
+  ${ al_user_bundle.download_list_html() }
+  
+
+  ${ al_user_bundle.send_button_html(show_editable_checkbox=True) }
+
+progress: 100
+---
+# ALDocument objects specify the metadata for each template
+objects:
+  - petition_to_seal_eviction_record_Post_interview_instructions: ALDocument.using(title="Instructions", filename="petition_to_seal_eviction_record_next_steps.docx", enabled=True, has_addendum=False)
+  - petition_to_seal_eviction_record_attachment: ALDocument.using(title="Petition to seal eviction record", filename="petition_to_seal_eviction_record", enabled=True, has_addendum=False, )
+---
+# Bundles group the ALDocuments into separate downloads, such as for court and for the user
+objects:
+  - al_user_bundle: ALDocumentBundle.using(elements=[petition_to_seal_eviction_record_Post_interview_instructions, petition_to_seal_eviction_record_attachment], filename="petition_to_seal_eviction_record", title="All forms to download for your records", enabled=True)
+  - al_court_bundle: ALDocumentBundle.using(elements=[petition_to_seal_eviction_record_attachment],  filename="petition_to_seal_eviction_record", title="All forms to deliver to court", enabled=True)
+---
+# Each attachment defines a key in an ALDocument. We use `i` as the placeholder here so the same template is 
+# used for "preview" and "final" keys, and logic in the template checks the value of 
+# `i` to show or hide the user's signature
+attachment:
+  name: Post-interview-Instructions
+  filename: petition_to_seal_eviction_record_next_steps
+  docx template file: petition_to_seal_eviction_record_next_steps.docx
+  variable name: petition_to_seal_eviction_record_Post_interview_instructions[i]
+  skip undefined: True
+  tagged pdf: True
+---
+attachment:
+  name: petition to seal eviction record
+  filename: petition_to_seal_eviction_record
+  variable name: petition_to_seal_eviction_record_attachment[i]
+  skip undefined: True
+  docx template file: petition_to_seal_eviction_record.docx
+  tagged pdf: True
+
+
+
